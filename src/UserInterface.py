@@ -3,6 +3,7 @@ from tkinter import filedialog
 from tkinter import ttk
 from PIL import ImageTk, Image
 from functools import partial
+import Functions
 
 
 class UserInterface:
@@ -24,7 +25,7 @@ class UserInterface:
     def __init__(self, screen_width, screen_height):
         self.window_name = 'FungiPy NFT-Img Generator'
         self.window_width = '1265'
-        self.window_height = '450'
+        self.window_height = '520'
         self.screen_width = screen_width
         self.screen_height = screen_height
         self.window_size = f'{self.window_width}x{self.window_height}'
@@ -38,7 +39,7 @@ class UserInterface:
         self.root = tk.Tk()
         self.root.title(self.window_name)
         self.root.iconbitmap(r'resources\disgusted.ico')
-        self.root.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{int(self.center_y)-80}')
+        self.root.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{int(self.center_y) - 80}')
         self.root.minsize(int(self.window_width), int(self.window_height))
         self.root.attributes('-alpha', 0.95)
         self.root.columnconfigure(0, weight=1)
@@ -76,10 +77,9 @@ class UserInterface:
         top_left_separator = ttk.Separator(self.left_container, orient='horizontal')
         top_left_separator.pack(anchor='n', padx=50, pady=20, fill=tk.BOTH)
 
-
     def setUpRightCol(self):
         # Contents: 6 rows, 2 cols
-        self.createInputFields(self.right_container, 6)
+        self.createInputFields(self.right_container, 7)
 
         # Create output col
         # Create containing frame
@@ -93,17 +93,17 @@ class UserInterface:
         label.grid(sticky='w', row=0, column=0)
 
         # Create entry field
-        entry_text = tk.StringVar()
-        entry = tk.Entry(container_frame, textvariable=entry_text)
-        self.entry_text_vars.append(entry_text)
-        entry.grid(sticky='w', row=1, column=1, ipadx=100)
+        output_directory_text = tk.StringVar()
+        output_directory_entry = tk.Entry(container_frame, textvariable=output_directory_text)
+        self.entry_text_vars.append(output_directory_text)
+        output_directory_entry.grid(sticky='w', row=1, column=1, ipadx=100)
 
         # Create button
         button_style = ttk.Style()
         button_style.configure('TButton', font=('Calibri', 10, 'bold'), background='white')
 
         # We need a partial function for the button callback since we need to pass args
-        button_callback = partial(self.setDirectory, 6)
+        button_callback = partial(self.setDirectory, len(self.entry_text_vars)-1)
         button = ttk.Button(container_frame, text='Browse', style='TButton', command=button_callback)
         button.grid(sticky='w', row=1, column=0, padx=(0, 20))
 
@@ -120,8 +120,11 @@ class UserInterface:
         collection_name_entry = tk.Entry(collection_name_frame, textvariable=collection_name_string_var)
         collection_name_entry.grid(sticky='w', row=0, column=1, ipadx=100)
 
-        # Create 'Generate' Button
-        generate_button = ttk.Button(collection_name_frame, text='Generate', style='TButton')
+        # Create 'Generate' Button with partial function
+        generate_button_callback = partial(Functions.generate, self.entry_text_vars,
+                                           output_directory_text, collection_name_string_var)
+        generate_button = ttk.Button(collection_name_frame, text='Generate',
+                                     style='TButton', command=generate_button_callback)
         generate_button.grid(sticky='e', row=1, column=1, padx=(20, 0))
 
     def createInputFields(self, parent, amount):
@@ -151,7 +154,6 @@ class UserInterface:
             button = ttk.Button(container_frame, text='Browse', style='TButton', command=button_callback)
             button.grid(sticky='w', row=(index + 1), column=0, padx=(0, 20))
 
-
             # Create entry field
             entry_text = tk.StringVar()
             entry = tk.Entry(container_frame, textvariable=entry_text)
@@ -165,5 +167,3 @@ class UserInterface:
     def run(self):
         self.createUI()
         self.root.mainloop()
-
-
