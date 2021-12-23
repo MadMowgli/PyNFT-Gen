@@ -5,4 +5,6 @@
 > a wide variety of NFT-pictures.
 
 ## How To Use
-1. Download the GitHub repository
+1. [Download](https://github.com/MadMowgli/PyNFT-Gen/archive/refs/heads/master.zip) the source files as a .zip from this GitHub repository. 
+2. Extract the downloaded .zip to wherever you want PyNFT-Gen to live.
+3. Open the extracted directory and move to PyNFT-Gen-master -> src
