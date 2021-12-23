@@ -38,7 +38,7 @@ class UserInterface:
         # Set up root container
         self.root = tk.Tk()
         self.root.title(self.window_name)
-        self.root.iconbitmap(r'resources\disgusted.ico')
+        self.root.iconbitmap(r'resources/disgusted.ico')
         self.root.geometry(f'{self.window_width}x{self.window_height}+{self.center_x}+{int(self.center_y) - 80}')
         self.root.minsize(int(self.window_width), int(self.window_height))
         self.root.attributes('-alpha', 0.95)
