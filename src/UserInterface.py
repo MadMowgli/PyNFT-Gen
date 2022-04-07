@@ -49,7 +49,6 @@ class UserInterface:
         # Set up basic 'container frames'
         self.left_container = tk.Frame(self.root, height=int(self.window_height), bg='white')
         self.left_container.grid(row=0, column=0, sticky='nsew')
-
         self.right_container = tk.Frame(self.root, height=int(self.window_height), bg='white')
         self.right_container.grid(row=0, column=1, sticky='nsew')
 
@@ -163,6 +162,7 @@ class UserInterface:
     def setDirectory(self, entry_field_index):
         directory = str(tk.filedialog.askdirectory())
         self.entry_text_vars[entry_field_index].set(directory)
+        return
 
     def run(self):
         self.createUI()
